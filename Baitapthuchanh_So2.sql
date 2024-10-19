@@ -53,10 +53,11 @@ WHERE td.masan = svd.masan
   AND td.nam = 2009;
 
 -- 8. Cho biết mã huấn luyện viên, họ tên, ngày sinh, địa chỉ, vai trò và tên CLB đang làm việc của các huấn luyện viên có quốc tịch “Việt Nam”.
-SELECT hlv_clb.mahlv, hlv.tenhlv, hlv.ngaysinh, hlv.diachi, hlv_clb.vaitro, clb.tenclb, quocgia qg
+SELECT hlv_clb.mahlv, hlv.tenhlv, hlv.ngaysinh, hlv.diachi, hlv_clb.vaitro, clb.tenclb
 FROM huanluyenvien hlv,
      hlv_clb,
-     caulacbo clb
+     caulacbo clb,
+     quocgia qg
 WHERE hlv_clb.maclb = clb.maclb
   AND hlv_clb.mahlv = hlv.mahlv
   AND hlv.maqg = qg.maqg
