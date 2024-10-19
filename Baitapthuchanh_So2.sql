@@ -53,13 +53,14 @@ WHERE td.masan = svd.masan
   AND td.nam = 2009;
 
 -- 8. Cho biết mã huấn luyện viên, họ tên, ngày sinh, địa chỉ, vai trò và tên CLB đang làm việc của các huấn luyện viên có quốc tịch “Việt Nam”.
-SELECT hlv_clb.mahlv, hlv.tenhlv, hlv.ngaysinh, hlv.diachi, hlv_clb.vaitro, clb.tenclb
+SELECT hlv_clb.mahlv, hlv.tenhlv, hlv.ngaysinh, hlv.diachi, hlv_clb.vaitro, clb.tenclb, quocgia qg
 FROM huanluyenvien hlv,
      hlv_clb,
      caulacbo clb
 WHERE hlv_clb.maclb = clb.maclb
   AND hlv_clb.mahlv = hlv.mahlv
-  AND hlv.maqg = 'VN';
+  AND hlv.maqg = qg.maqg
+  AND qg.maqg = 'VN';
 
 -- 9. Lấy tên 3 câu lạc bộ có điểm cao nhất sau vòng 3 năm 2009.
 SELECT clb.tenclb
