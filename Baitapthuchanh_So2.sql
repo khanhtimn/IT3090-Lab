@@ -56,10 +56,12 @@ WHERE td.masan = svd.masan
 SELECT hlv_clb.mahlv, hlv.tenhlv, hlv.ngaysinh, hlv.diachi, hlv_clb.vaitro, clb.tenclb
 FROM huanluyenvien hlv,
      hlv_clb,
-     caulacbo clb
+     caulacbo clb,
+     quocgia qg
 WHERE hlv_clb.maclb = clb.maclb
   AND hlv_clb.mahlv = hlv.mahlv
-  AND hlv.maqg = 'VN';
+  AND hlv.maqg = qg.maqg
+  AND qg.maqg = 'VN';
 
 -- 9. Lấy tên 3 câu lạc bộ có điểm cao nhất sau vòng 3 năm 2009.
 SELECT clb.tenclb
@@ -151,16 +153,15 @@ WHERE hlv.mahlv = hlv_clb.mahlv
 -- 2. Liệt kê các huấn luyện viên thuộc quốc gia Việt Nam chưa làm công tác huấn luyện
 -- tại bất kỳ một câu lạc bộ nào.
 -- Cách 1
-SELECT DISTINCT hlv.tenhlv
+SELECT hlv.*
 FROM huanluyenvien hlv,
-     hlv_clb,
      quocgia qg
 WHERE hlv.maqg = qg.maqg
   AND qg.maqg = 'VN'
   AND hlv.mahlv NOT IN (SELECT mahlv FROM hlv_clb);
 
 -- Cách 2
-SELECT hlv.tenhlv
+SELECT hlv.*
 FROM huanluyenvien hlv
          LEFT JOIN quocgia qg ON hlv.maqg = qg.maqg
          LEFT JOIN hlv_clb ON hlv.mahlv = hlv_clb.mahlv
@@ -190,7 +191,7 @@ WHERE td.maclb1 = clb1.maclb
   AND td.maclb2 = clb2.maclb
   AND td.masan = svd.masan
   AND (
-    clb1.maclb = (SELECT maclb FROM bangxh WHERE vong = 3 AND nam = 2009 AND hang = 1)
+    clb1.maclb = (SELECT maclb FROM bangxh WHERE vong = 3 AND nam = 2009 ORDER BY hang LIMIT 1)
         OR
-    clb2.maclb = (SELECT maclb FROM bangxh WHERE vong = 3 AND nam = 2009 AND hang = 1)
+    clb2.maclb = (SELECT maclb FROM bangxh WHERE vong = 3 AND nam = 2009 ORDER BY hang LIMIT 1)
     );
